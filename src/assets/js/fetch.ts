@@ -12,12 +12,12 @@ interface fetchData {
 }
 
 const fetchGet = async function(url: string, params: any = {}) {
-  let data = await axios
+  await axios
     .get(url, {
       params: params
     })
     .then(res => res.data);
-  return data;
+  // return data;
 };
 
 const cancelToken = axios.CancelToken;

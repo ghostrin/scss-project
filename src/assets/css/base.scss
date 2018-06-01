@@ -1,3 +1,17 @@
 $mainColor: #ff6200;
 $fadeColor: #cccccc;
 $errColor:#ff0000;
+$borderColor: #cccccc;
+
+a{
+  text-decoration: none;
+  color: #666666;
+}
+.btn{
+  padding: 20px 40px;
+  border: 1px solid $borderColor;
+  text-align: center;
+  line-height: 32px;
+  height: 32px;
+  border-radius: 4px;
+}

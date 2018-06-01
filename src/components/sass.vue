@@ -23,6 +23,7 @@
     <div class="compute-result" @click="getInfo">
       这是计算结果，元素的宽度为160px
     </div>
+    <router-link :to="{name: 'TsDemo' }" class="btn">vue-decorator</router-link>
   </div>
 </template>
 <script lang="ts">
@@ -46,6 +47,55 @@ export default Vue.extend({
         result = res
         console.log(result);
       })
+      console.log('synchronize')
+      @testable
+      class  StaticClassProp {
+        static prop:string = '123' // 静态属性
+        name:string; // 实例属性
+        constructor(name:string, public age:number, public args:Array<number>) {
+          this.name = name;
+        }
+        // 静态方法
+        static staticMethod() {
+          console.log('调用类的静态方法')
+        }
+        // 实例方法
+        instanceMethod() {
+          console.log('调用实例的方法')
+        }
+
+        * [Symbol.iterator]() {
+          for (const arg of this.args) {
+            yield arg;
+          }
+        }
+      }
+      // class decorator 类装饰器 说白了就是注释
+      function testable(target: Function):void {
+        console.log(target)
+      }
+
+
+      const instance = new StaticClassProp('lj', 23, [1, 2, 3, 4, 5])
+      console.log(instance.name)
+      console.log(instance.age)
+      console.log(StaticClassProp.prop)
+      StaticClassProp.staticMethod()
+      instance.instanceMethod()
+      for (let item of instance) {
+        console.log(item)
+      }
+      const symbolIte = Object.create({});
+      symbolIte[Symbol.iterator] = function* () {
+        yield 'first';
+        yield 'second';
+        yield 'three';
+      }
+
+      for (const item of symbolIte) {
+        console.log(item)
+      }
+
     }
   }
 })

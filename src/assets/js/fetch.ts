@@ -10,7 +10,9 @@ interface fetchData {
   data: Object;
   [propName: string]: any;
 }
-
+interface customConfig extends AxiosRequestConfig {
+  [propName:string]:any
+}
 const fetchGet = async function(url: string, params: any = {}) {
   await axios
     .get(url, {
@@ -22,7 +24,7 @@ const fetchGet = async function(url: string, params: any = {}) {
 
 const cancelToken = axios.CancelToken;
 const pending = {};
-const createApi = function(options: AxiosRequestConfig = {}): AxiosInstance {
+const createApi = function(options: customConfig={}): AxiosInstance {
   const conf = Object.assign(
     {},
     {
@@ -37,7 +39,7 @@ const createApi = function(options: AxiosRequestConfig = {}): AxiosInstance {
   const instance = axios.create(conf);
   instance.defaults.timeout = 2500;
 
-  instance.interceptors.request.use((config): AxiosRequestConfig => {
+  instance.interceptors.request.use((config) => {
     let url = config.url;
     removePending(url);
     console.log(config);
@@ -62,4 +64,8 @@ const removePending = function(url: string) {
 };
 
 const api = createApi();
-export { fetchGet, api };
+const movieApi = createApi({baseURL: '/v2/movie/'})
+const cityApi = createApi({baseURL: '/v2/loc/'})
+const eventApi = createApi({baseURL: '/v2/event/'})
+const bookApi = createApi({baseURL: '/v2/book/'})
+export { fetchGet, api, cityApi, movieApi, bookApi, eventApi };

@@ -1,23 +1,50 @@
-<script lang="tsx">
-import {CreateElement}  from 'vue'
-import { Vue, Component } from 'vue-property-decorator';
-@Component
+<template>
+  <div>
+    <mt-button type="primary" @click="messageOut">mt-button</mt-button>
+    <router-link :to="{name:'DbHome'}">DbHome</router-link>   
+  </div>
+</template>
+
+<script lang="ts">
+import Vue, {CreateElement}  from 'vue'
+import {Component } from 'vue-property-decorator';
+import {bookApi, movieApi, cityApi } from '@/assets/js/fetch';
+let outVal = 'outVal';
+function outPut():void{
+  console.log(outVal)
+}
+outPut();
+
+@Component({
+  name: 'TsDemo'
+})
 export default class TsDemo extends Vue {
   msg: string = '初始化的msg';
 
   created() {
     console.log('created');
     this.msg = 'created msg';
+    cityApi.get('/list').then(res => {
+      console.log(res.data)
+    });
+    
   }
-  render(h: CreateElement) {
-    return (
-      <div class={{ 'ts-main': this.msg.length !== 0 ? true : false }}>
-        <div class="title">这里是ts demo</div>
-        <div>{this.msg}</div>
-      </div>
-    );
+  messageOut() {
+    // this.$Message.info({
+    //   content: '这是info提示框'
+    // })
+    // this.$router.push({name: 'DbHome'});
   }
 }
+// export default Vue.extend({
+//   methods:{
+//     messageOut(){
+//       this.$Message({
+//         content: 'content'
+//       })
+//     }
+//   }
+// })
 </script>
 
 <style lang="scss" scoped>
